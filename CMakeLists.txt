@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8.2)
 
-project(qcustomplot)
+project(qcustomplot VERSION 1.0.0)
 
 # Find includes in the build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -35,6 +35,31 @@ set(SRCS
 # Tell CMake to create the helloworld executable
 add_library(qcustomplot ${SRCS} ${HEADERS})
 
-target_include_directories(qcustomplot PUBLIC include)
+include_directories(include)
 # Add the Qt5 Widgets for linking
 target_link_libraries(qcustomplot Qt5::Core Qt5::Gui Qt5::Widgets)
+
+export(TARGETS qcustomplot NAMESPACE qcustomplot:: FILE qcustomplotTargets.cmake)
+
+install(TARGETS qcustomplot
+    EXPORT qcustomplotTargets
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION bin
+    INCLUDES DESTINATION include
+)
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    qcustomplotConfigVersion.cmake
+    VERSION ${PACKAGE_VERSION}
+    COMPATIBILITY AnyNewerVersion
+)
+
+install(EXPORT qcustomplotTargets
+        FILE qcustomplotTargets.cmake
+        NAMESPACE qcustomplot::
+        DESTINATION lib/cmake/qcustomplot
+)
+
+configure_file(qcustomplotConfig.cmake.in qcustomplotConfig.cmake @ONLY)
