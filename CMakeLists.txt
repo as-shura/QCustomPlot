@@ -49,6 +49,11 @@ install(TARGETS qcustomplot
     INCLUDES DESTINATION include
 )
 
+install(FILES ${HEADER} DESTINATION include)
+
+install(DIRECTORY include/
+        DESTINATION include/)
+        
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
     qcustomplotConfigVersion.cmake
